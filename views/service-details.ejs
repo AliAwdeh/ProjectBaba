@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4>Service Details</h4>
+            </div>
+            <div class="card-body">
+                <p>Car Plate Number: <%= serviceDetails.plate_number %></p>
+                <p>Service Date: <%= serviceDetails.service_date %></p>
+                <p>Service ID: <%= serviceDetails.id %></p>
+                <p>Odometer: <%= serviceDetails.odometer %></p>
+
+                <!-- Display details about changed parts -->
+                <% if (serviceDetails.parts && serviceDetails.parts.length > 0) { %>
+                    <p>Changed Parts:</p>
+                    <ul>
+                        <% serviceDetails.parts.forEach(part => { %>
+                            <li><%= part.name %> - $<%= part.price %></li>
+                        <% }); %>
+                    </ul>
+                <% } %>
+
+                <!-- Display labor charge -->
+                <p>Labor Charge: $<%= serviceDetails.labor %></p>
+
+                <!-- Display total cost -->
+                <p>Total Cost: $<%= serviceDetails.total_cost %></p>
+            </div>
+        </div>
+
+        <!-- Description box -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h4>Description</h4>
+            </div>
+            <div class="card-body">
+                <p><%= serviceDetails.description %></p>
+            </div>
+        </div>
+
+        <!-- Paid and Outstanding box -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h4>Paid & Outstanding</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Paid Amount:</strong> $<%= serviceDetails.paid %></p>
+                <p><strong>Outstanding Amount:</strong> $<%= serviceDetails.outstanding %></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

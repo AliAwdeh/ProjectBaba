@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Add Customer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+            margin-bottom: 150px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .form-container {
+            border: 1px solid #007bff;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #007bff;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            margin-top: 20px;
+        }
+
+        .footer {
+            background-color: #fff;
+            color: #444;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        /* Additional styles for the search results */
+        .search-result {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#">Garage Awdeh</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/clientReservation/dashboard-admin">Take an Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/add-car">Add a Car</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/add-customer">Add A Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard-admin">Service</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/history">History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Form Container for Admin Add Customer -->
+    <div class="container mt-5">
+        <!-- Form for Updating Existing User -->
+        <div class="form-container">
+            <h2 class="mt-5">Update Existing Customer</h2>
+
+            <form id="updateCustomerForm" action="/admin/update-customer/<%= customer.id %>" method="post">
+                <!-- Search and Update Fields -->
+                <div class="form-group">
+                    <label for="searchUser">Search User:</label>
+                    <input type="text" class="form-control" id="searchUser" name="username" autocomplete="off">
+                </div>
+
+                <!-- Display Search Results Here -->
+                <div id="searchResults"></div>
+
+                <!-- Hidden Fields to Store Selected User Information -->
+                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="username" name="username">
+
+                <!-- User Information Fields -->
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname:</label>
+                    <input type="text" class="form-control" id="surname" name="surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" class="form-control" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                </div>
+                <div class="form-group">
+                    <label for="more_info">More Info:</label>
+                    <input type="text" class="form-control" id="more_info" name="more_info">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-custom">Update Customer</button>
+            </form>
+        </div>
+
+        <!-- Form for Creating a New User -->
+        <div class="form-container">
+            <h2 class="mt-5">Add New Customer</h2>
+
+            <form id="addCustomerForm" action="/admin/add-customer" method="post">
+                <!-- New User Fields -->
+                <div class="form-group">
+                    <label for="newUsername">Username:</label>
+                    <input type="text" class="form-control" id="newUsername" name="newUsername" required>
+                </div>
+
+                <!-- Include all necessary fields for a new customer -->
+                <div class="form-group">
+                    <label for="newPassword">Password:</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newName">Name:</label>
+                    <input type="text" class="form-control" id="newName" name="newName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newSurname">Surname:</label>
+                    <input type="text" class="form-control" id="newSurname" name="newSurname" required>
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email:</label>
+                    <input type="email" class="form-control" id="newEmail" name="newEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newAddress">Address:</label>
+                    <input type="text" class="form-control" id="newAddress" name="newAddress" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPhoneNumber">Phone Number:</label>
+                    <input type="text" class="form-control" id="newPhoneNumber" name="newPhoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="newMoreInfo">More Info:</label>
+                    <input type="text" class="form-control" id="newMoreInfo" name="newMoreInfo">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-custom">Add Customer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script for Searching Users and Displaying Results -->
+    <script>
+        const searchUserInput = document.getElementById('searchUser');
+        const searchResultsContainer = document.getElementById('searchResults');
+        const updateCustomerForm = document.getElementById('updateCustomerForm');
+        const addCustomerForm = document.getElementById('addCustomerForm');
+
+        searchUserInput.addEventListener('input', async (e) => {
+            const searchQuery = e.target.value.trim();
+
+            if (searchQuery === '') {
+                searchResultsContainer.style.display = 'none';
+                return;
+            }
+
+            // Fetch matching users
+            const response = await fetch(`/admin/search-users?search=${searchQuery}`);
+            const matchingUsers = await response.json();
+
+            // Display search results
+            displaySearchResults(matchingUsers);
+        });
+
+        function displaySearchResults(users) {
+            searchResultsContainer.innerHTML = '';
+
+            if (users.length === 0) {
+                searchResultsContainer.style.display = 'none';
+                return;
+            }
+
+            users.forEach((user) => {
+                const listItem = document.createElement('div');
+                listItem.className = 'search-result';
+                listItem.innerHTML = `<p>${user.username} - ${user.phone_number}</p>`;
+                listItem.addEventListener('click', () => {
+                    searchUserInput.value = user.username;
+                    updateCustomerForm.id.value = user.id;
+                    updateCustomerForm.username.value = user.username;
+                    updateCustomerForm.password.value = '';
+                    updateCustomerForm.name.value = user.name;
+                    updateCustomerForm.surname.value = user.surname;
+                    updateCustomerForm.email.value = user.email;
+                    updateCustomerForm.address.value = user.address;
+                    updateCustomerForm.phone_number.value = user.phone_number;
+                    updateCustomerForm.more_info.value = user.more_info || '';
+                    searchResultsContainer.style.display = 'none';
+                });
+
+                searchResultsContainer.appendChild(listItem);
+            });
+
+            searchResultsContainer.style.display = 'block';
+        }
+
+        // Additional event listener to hide search options when a user is selected
+        searchResultsContainer.addEventListener('click', (e) => {
+            const selectedUser = e.target.closest('.search-result');
+            if (selectedUser) {
+                searchResultsContainer.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS and Popper.js (optional, for Bootstrap components that require JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 Garage Awdeh</p>
+    </div>
+</body>
+</html>

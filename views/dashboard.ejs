@@ -1,0 +1,226 @@
+<!-- dashboard.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service History</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+            margin-bottom: 150px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #007bff;
+        }
+
+        .btn-custom {
+            margin: 10px;
+        }
+
+        .bg-light {
+            background-color: #f8f9fa;
+        }
+
+        h2 {
+            margin-bottom: 0;
+            color: #007bff;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .list-group-item {
+            margin-bottom: 10px;
+            position: relative;
+            background-color: #fff;
+        }
+
+        .car-details {
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: left;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-brand-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #007bff;
+        }
+
+        .btn-add-car {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-sign-out {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .footer {
+            background-color: #fff;
+            color: #444;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .your-cars {
+            margin-top: 20px;
+            border: 1px solid #ddd; /* Add border */
+            padding: 20px; /* Add padding for better appearance */
+        }
+
+        .car-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .car-item {
+            width: 48%;
+            margin-bottom: 20px;
+        }
+
+        .group-header {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#">Garage Awdeh</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Service History</a>                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add/add-car">Add a Car</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/clientReservation/resclient">Take an Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Your Cars -->
+    <h4 class="mt-5 text-center">Service History</h4>
+    <div class="container mt-5 your-cars">
+        <h2>Your Cars</h2>
+        <div class="car-container">
+            <% if (userCars.length > 0) { %>
+                <% userCars.forEach(car => { %>
+                    <div class="car-item">
+                        <a href="#" class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1"><%= car.make %> <%= car.model %> (Plate Number: <%= car.plate_number %>)</h5>
+                            </div>
+                            <div class="car-details">
+                                <p>Colour: <%= car.colour %></p>
+                                <p>Make: <%= car.make %></p>
+                                <p>Brand: <%= car.brand %></p>
+                                <p>Year of Production: <%= car.year_of_production %></p>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No cars found.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Service History -->
+    <div class="container mt-5">
+        <% if (serviceHistory.length > 0) { %>
+            <div class="list-group">
+                <% let currentDate = null; %>
+                <% serviceHistory.forEach(service => { %>
+                    <% const serviceDate = new Date(service.service_date).toLocaleDateString(); %>
+                    <% if (serviceDate !== currentDate) { %>
+                        <!-- Display a new group header when the date changes -->
+                        <div class="group-header">
+                            <h4><%= serviceDate %></h4>
+                        </div>
+                        <% currentDate = serviceDate; %>
+                    <% } %>
+                    <a href="/dashboard/<%= service.id %>" class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Car Plate Number: <%= service.plate_number %></h5>
+                            <small>Service Date: <%= service.service_date %></small>
+                        </div>
+                        <p class="mb-1">Odometer: <%= service.odometer %></p>
+                        <p class="mb-1">Description: <%= service.description %></p>
+                        <p class="mb-1">Total Cost: $<%= service.total_cost %></p>
+                        <p class="mb-1">Paid: $<%= service.paid %></p>
+                        <p class="mb-1">Outstanding: $<%= service.outstanding %></p>
+                        <div class="car-details">
+                            <p>Colour: <%= service.colour %></p>
+                            <p>Make: <%= service.make %></p>
+                            <p>Brand: <%= service.brand %></p>
+                            <p>Year of Production: <%= service.year_of_production %></p>
+                        </div>
+                    </a>
+                <% }); %>
+            </div>
+            <ul class="pagination">
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="/dashboard?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+            </ul>
+        <% } else { %>
+            <p>No service history found.</p>
+        <% } %>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Phone Numbers: +96103236500, +96170070585, +96107272472</p>
+        <p>Email: imad.audi@gmail.com</p>
+        <p>Address: Chiyah, Gallery Semaan, Facing Nissan, Garage Awdeh</p>
+        <p>Over 25 years of experience</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

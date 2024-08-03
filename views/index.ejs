@@ -1,0 +1,144 @@
+<!-- index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garage Awdeh</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Lighter color scheme */
+            padding-top: 50px;
+            margin-bottom: 150px; /* Added margin to accommodate the footer */
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #444; /* Darker color for the heading */
+        }
+
+        .btn-custom {
+            margin: 10px;
+        }
+
+        /* Added styles for the picture cards */
+        .picture-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .picture-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        /* Updated styles for the footer */
+        .footer {
+            background-color: #fff; /* White background */
+            color: #444; /* Darker color for the text */
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer p {
+            margin: 5px 0; /* Adjusted margin for the paragraphs */
+            font-size: 12px; /* Smaller font size */
+            display: inline-block; /* Make paragraphs inline */
+            margin-right: 20px; /* Add some space between paragraphs */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="#">Garage Awdeh</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                </li>
+                <!-- Add more menu items as needed -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Welcome to Garage Awdeh</h1>
+
+        <!-- Picture Cards Section -->
+        <div class="row">
+            <!-- Picture Card 1 -->
+            <div class="col-md-6">
+                <div class="picture-card">
+                    <img src="1.jpg" alt="Service 1">
+                    <h3>Regular Service is key</h3>
+                    <p>Keep your engine running smoothly with our professional oil change service. Our skilled mechanics use high-quality oils and perform thorough maintenance checks to ensure your vehicle's optimal performance.</p>
+                </div>
+            </div>
+
+            <!-- Picture Card 2 -->
+            <div class="col-md-6">
+                <div class="picture-card">
+                    <img src="2.jpg" alt="Service 2">
+                    <h3>Your safety is our number one priority</h3>
+                    <p>Safety is our priority. Trust us with your brake inspection and repair needs. Our experienced technicians will assess your brake system, diagnose issues, and provide efficient repairs, ensuring your vehicle stops reliably.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Picture Card 3 -->
+            <div class="col-md-6">
+                <div class="picture-card">
+                    <img src="3.jpg" alt="Service 3">
+                    <h3>Stable, even in high speeds</h3>
+                    <p>Extend the life of your tires and enhance vehicle handling with our tire rotation and alignment service. Our team employs precision techniques to balance and align your tires, promoting even wear and improved fuel efficiency.</p>
+                </div>
+            </div>
+
+            <!-- Picture Card 4 -->
+            <div class="col-md-6">
+                <div class="picture-card">
+                    <img src="4.jpg" alt="Service 4">
+                    <h3>The heart and soul of your machine, always at its best</h3>
+                    <p>Address engine-related issues with our comprehensive diagnostics and repair service. Our advanced diagnostic tools help identify problems, and our skilled mechanics perform precise repairs to get your engine running at its best.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Phone Numbers: +96103236500, +96170070585, +96107272472</p>
+        <p>Email: imad.audi@gmail.com</p>
+        <p>Address: Chiyah, Gallery Semaan, Facing Nissan, Garage Awdeh</p>
+        <p>Over 25 years of experience</p>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (optional, for Bootstrap components that require JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Updated CDN link for Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

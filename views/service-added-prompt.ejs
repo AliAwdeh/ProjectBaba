@@ -1,0 +1,44 @@
+<!-- views/service-added-prompt.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Added Successfully</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add your custom styles here */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4>Service Added Successfully</h4>
+            </div>
+            <div class="card-body">
+                <p>Your service has been added successfully!</p>
+                <p>Service ID: <%= serviceId %></p>
+                <p>Do you want to view the details or go back to the admin dashboard?</p>
+                <a href="/service-details/<%= serviceId %>" class="btn btn-primary">View Service Details</a>
+                <a href="/dashboard-admin" class="btn btn-secondary">Go Back to Admin Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

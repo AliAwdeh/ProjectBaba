@@ -1,0 +1,17 @@
+{
+  "name": "final-project",
+  "version": "1.0.0",
+  "description": "Final Project Web Programming 1: 2301_4284",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "keywords": [
+    "Final",
+    "Project",
+    "Web",
+    "Programming"
+  ],
+  "author": "Ali Awdeh 202011184",
+  "license": "ISC"
+}

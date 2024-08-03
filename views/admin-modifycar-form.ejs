@@ -1,0 +1,237 @@
+<!-- admin-modifycar-form.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Modify Car</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+            margin-bottom: 150px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .form-container {
+            border: 1px solid #007bff;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative; /* Added position relative */
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #007bff;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            margin-top: 20px; /* Adjusted margin for the Modify Car button */
+        }
+
+        .footer {
+            background-color: #fff;
+            color: #444;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        /* Styling for the user search results */
+        #searchResults {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            width: calc(100% - 40px); /* Adjusted width to prevent overlapping */
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin-top: 8px; /* Adjusted margin to align with the search bar */
+        }
+
+        .search-result {
+            padding: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 1px solid #ddd; /* Added border for Bootstrap-like styling */
+        }
+
+        .search-result:hover {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#">Garage Awdeh</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/clientReservation/admin-res">Take an Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/add-car">Add a Car</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Service</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/history">History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Form Container for Admin Modify Car -->
+    <div class="container mt-5 form-container">
+        <h2 class="mt-5">Admin Modify Car</h2>
+
+        <form id="modifyCarForm" action="/admin/modify-car/<%= carData.id %>" method="post">
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <input type="text" class="form-control" id="brand" name="brand" value="<%= carData.brand %>" required>
+            </div>
+            <div class="form-group">
+                <label for="make">Make:</label>
+                <input type="text" class="form-control" id="make" name="make" value="<%= carData.make %>" required>
+            </div>
+            <div class="form-group">
+                <label for="colour">Colour:</label>
+                <input type="text" class="form-control" id="colour" name="colour" value="<%= carData.colour %>" required>
+            </div>
+            <div class="form-group">
+                <label for="yearOfProduction">Year of Production:</label>
+                <input type="number" class="form-control" id="yearOfProduction" name="yearOfProduction" value="<%= carData.year_of_production %>" required>
+            </div>
+            <div class="form-group">
+                <label for="plateNumber">Plate Number:</label>
+                <input type="text" class="form-control" id="plateNumber" name="plateNumber" value="<%= carData.plate_number %>" required>
+            </div>
+            <div class="form-group">
+                <label for="odometer">Odometer:</label>
+                <input type="number" class="form-control" id="odometer" name="odometer" value="<%= carData.odometer %>" required>
+            </div>
+
+            <!-- Search bar for selecting user -->
+            <div class="form-group">
+                <label for="searchUser">Search User:</label>
+                <input type="text" class="form-control" id="searchUser" name="searchUser" autocomplete="off" value="<%= carData.owner_name %>" required>
+            </div>
+
+            <!-- Display search results here -->
+            <div id="searchResults"></div>
+
+            <button type="submit" class="btn btn-primary btn-custom">Modify Car</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (optional, for Bootstrap components that require JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript for live user search -->
+    <script>
+        const searchUserInput = document.getElementById('searchUser');
+        const searchResultsContainer = document.getElementById('searchResults');
+        const modifyCarForm = document.getElementById('modifyCarForm');
+
+        searchUserInput.addEventListener('input', async (e) => {
+            const searchQuery = e.target.value.trim();
+
+            if (searchQuery === '') {
+                searchResultsContainer.style.display = 'none';
+                return;
+            }
+
+            // Fetch matching users
+            const response = await fetch(`/admin/search-users?search=${searchQuery}`);
+            const matchingUsers = await response.json();
+
+            // Display search results
+            displaySearchResults(matchingUsers);
+        });
+
+        function displaySearchResults(users) {
+            searchResultsContainer.innerHTML = '';
+
+            if (users.length === 0) {
+                searchResultsContainer.style.display = 'none';
+                return;
+            }
+
+            users.forEach((user) => {
+                const listItem = document.createElement('div');
+                listItem.className = 'search-result';
+                listItem.textContent = `${user.name} ${user.surname}`;
+                listItem.addEventListener('click', () => {
+                    searchUserInput.value = `${user.name} ${user.surname}`;
+                    modifyCarForm.ownerId.value = user.id;  // Set the ownerId input value
+                    searchResultsContainer.style.display = 'none';
+                });
+
+                searchResultsContainer.appendChild(listItem);
+            });
+
+            searchResultsContainer.style.display = 'block';
+        }
+
+        // Hide search options when a user is selected
+        modifyCarForm.addEventListener('submit', () => {
+            searchResultsContainer.style.display = 'none';
+        });
+
+        // Hide search options when clicking outside the search area
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#searchResults') && !e.target.closest('#searchUser')) {
+                searchResultsContainer.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Phone Numbers: +96103236500, +96170070585, +96107272472</p>
+        <p>Email: imad.audi@gmail.com</p>
+        <p>Address: Chiyah, Gallery Semaan, Facing Nissan, Garage Awdeh</p>
+        <p>Over 25 years of experience</p>
+    </div>
+</body>
+</html>

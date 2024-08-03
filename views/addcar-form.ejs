@@ -1,0 +1,140 @@
+<!-- addcar-form.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Car</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+            margin-bottom: 150px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .form-container {
+            border: 1px solid #007bff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #007bff;
+        }
+
+
+        h2 {
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            margin: 10px;
+        }
+
+        .footer {
+            background-color: #fff;
+            color: #444;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#">Garage Awdeh</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/clientReservation/resclient">Take an Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/add/add-car">Add a Car</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Service History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container mt-5 form-container">
+        <h2 class="mt-5">Add Car</h2>
+        
+        <form action="/add/add-car" method="post">
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <input type="text" class="form-control" id="brand" name="brand" required>
+            </div>
+            <div class="form-group">
+                <label for="make">Make:</label>
+                <input type="text" class="form-control" id="make" name="make" required>
+            </div>
+            <div class="form-group">
+                <label for="colour">Colour:</label>
+                <input type="text" class="form-control" id="colour" name="colour" required>
+            </div>
+            <div class="form-group">
+                <label for="yearOfProduction">Year of Production:</label>
+                <input type="number" class="form-control" id="yearOfProduction" name="yearOfProduction" required>
+            </div>
+            <div class="form-group">
+                <label for="plateNumber">Plate Number:</label>
+                <input type="text" class="form-control" id="plateNumber" name="plateNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="odometer">Odometer:</label>
+                <input type="number" class="form-control" id="odometer" name="odometer" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-custom">Add Car</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (optional, for Bootstrap components that require JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Phone Numbers: +96103236500, +96170070585, +96107272472</p>
+        <p>Email: imad.audi@gmail.com</p>
+        <p>Address: Chiyah, Gallery Semaan, Facing Nissan, Garage Awdeh</p>
+        <p>Over 25 years of experience</p>
+    </div>
+</body>
+</html>
