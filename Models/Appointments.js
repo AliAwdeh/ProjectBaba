@@ -1,6 +1,6 @@
-const pool = require('./dbconnect');
+const pool = require('../DB/dbconnnect');
 
-export class Appointments {
+class Appointments {
     constructor(data) {
         this.appointment_id = data.appointment_id || null;
         this.guid = data.guid;
@@ -9,7 +9,11 @@ export class Appointments {
         this.appointment_date = new Date(data.appointment_date);
         this.service_details = data.service_details || null;
     }
-
+    static pool;
+    static setPool(pool) {
+        Appointments.pool = pool;
+    }
+    
     async create() {
         const { guid, client_id, car_id, appointment_date, service_details } = this;
         const [result] = await pool.query(
@@ -57,3 +61,4 @@ export class Appointments {
         return rows;
     }
 }
+module.exports = { Appointments };

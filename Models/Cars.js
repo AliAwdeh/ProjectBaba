@@ -1,6 +1,6 @@
-const pool = require('./dbconnect');
+const pool = require('../DB/dbconnnect');
 
-export class Cars {
+class Cars {
     constructor(data) {
         this.car_id = data.car_id || null;
         this.plate_number = data.plate_number;
@@ -10,6 +10,11 @@ export class Cars {
         this.year = data.year;
         this.Colour = data.Colour;
         this.vin = data.vin || null;
+    }
+    static pool;
+
+    static setPool(pool) {
+        Cars.pool = pool;
     }
 
     async create() {
@@ -59,3 +64,4 @@ export class Cars {
         return rows;
     }
 }
+module.exports = { Cars };

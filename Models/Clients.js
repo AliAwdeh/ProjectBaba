@@ -1,6 +1,6 @@
-const pool = require('./dbconnect');
+const pool = require('../DB/dbconnnect');
 
-export class Clients {
+class Clients {
     constructor(data) {
         this.client_id = data.client_id || null;
         this.guid = data.guid;
@@ -10,6 +10,11 @@ export class Clients {
         this.email = data.email;
         this.address = data.address;
         this.reference = data.reference || null;
+    }
+
+    static pool;
+    static setPool(pool) {
+        Clients.pool = pool;
     }
 
     async create() {
@@ -59,3 +64,4 @@ export class Clients {
         return rows;
     }
 }
+module.exports = { Clients };

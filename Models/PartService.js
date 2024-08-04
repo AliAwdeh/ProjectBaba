@@ -1,6 +1,6 @@
-const pool = require('./dbconnect');
+const pool = require('../DB/dbconnnect');
 
-export class PartService {
+class PartService {
     constructor(data) {
         this.partservice_id = data.partservice_id || null;
         this.guid = data.guid;
@@ -10,6 +10,10 @@ export class PartService {
         this.total_price = data.total_price || null; // This is a computed field
     }
 
+    static pool;
+    static setPool(pool) {
+        PartService.pool = pool;
+    }
     async create() {
         const { guid, part_id, service_id, quantity } = this;
         const [result] = await pool.query(
@@ -79,3 +83,4 @@ export class PartService {
         return rows;
     }
 }
+module.exports = { PartService };

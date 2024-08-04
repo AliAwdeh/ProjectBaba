@@ -1,0 +1,25 @@
+{
+  "name": "projectbaba",
+  "version": "2.0.0",
+  "description": "Mechanic ",
+  "main": "Server.js",
+  "scripts": {
+    "test": "Server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliAwdeh/ProjectBaba.git"
+  },
+  "author": "Ali Awdeh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AliAwdeh/ProjectBaba/issues"
+  },
+  "homepage": "https://github.com/AliAwdeh/ProjectBaba#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0",
+    "pg": "^8.12.0"
+  }
+}

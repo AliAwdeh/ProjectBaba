@@ -1,6 +1,6 @@
-const pool = require('./dbconnect');
+const pool = require('../DB/dbconnnect');
 
-export class OwnershipHistory {
+class OwnershipHistory {
     constructor(data) {
         this.ownership_id = data.ownership_id || null;
         this.guid = data.guid;
@@ -8,6 +8,12 @@ export class OwnershipHistory {
         this.old_owner_id = data.old_owner_id || null;
         this.new_owner_id = data.new_owner_id || null;
         this.transfer_date = new Date(data.transfer_date);
+    }
+
+    static pool;
+
+    static setPool(pool) {
+        OwnershipHistory.pool = pool;
     }
 
     async create() {
@@ -57,3 +63,4 @@ export class OwnershipHistory {
         return rows;
     }
 }
+module.exports = { OwnershipHistory };

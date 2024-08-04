@@ -72,9 +72,8 @@ CREATE TABLE Service (
     description TEXT,
     invoice_id INT,
     paid_status BOOLEAN NOT NULL DEFAULT FALSE,
-    price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (car_id) REFERENCES Cars(car_id),
-    FOREIGN KEY (invoice_id) REFERENCES Invoice(invoice_id)
+    price DECIMAL(10, 2),
+    FOREIGN KEY (car_id) REFERENCES Cars(car_id)
 );
 
 -- Create the PartService table for the many-to-many relationship
@@ -86,9 +85,7 @@ CREATE TABLE PartService (
     quantity INT NOT NULL,
     FOREIGN KEY (part_id) REFERENCES Parts(part_id),
     FOREIGN KEY (service_id) REFERENCES Service(service_id),
-    total_price DECIMAL(10, 2) GENERATED ALWAYS AS (quantity * (
-        SELECT price FROM Parts WHERE Parts.part_id = PartService.part_id
-    )) STORED
+    total_price DECIMAL(10, 2)
 );
 
 -- Create the Invoice table
@@ -97,9 +94,60 @@ CREATE TABLE Invoice (
     guid CHAR(36) NOT NULL UNIQUE,
     service_id INT NOT NULL,
     labor_cost DECIMAL(10, 2) NOT NULL,
-    partservice_total DECIMAL(10, 2) GENERATED ALWAYS AS (
-        SELECT SUM(total_price) FROM PartService WHERE PartService.service_id = Invoice.service_id
-    ) STORED,
-    total DECIMAL(10, 2) GENERATED ALWAYS AS (labor_cost + partservice_total) STORED,
+    partservice_total DECIMAL(10, 2),
+    total DECIMAL(10, 2),
     FOREIGN KEY (service_id) REFERENCES Service(service_id)
 );
+
+ -- now the second part:
+
+ -- Add foreign key constraint for invoice_id in Service table
+ALTER TABLE Service
+ADD CONSTRAINT fk_invoice
+FOREIGN KEY (invoice_id) REFERENCES Invoice(invoice_id);
+
+
+ --THEN
+
+ -- Trigger to update partservice_total and total in Invoice table after inserting or updating PartService
+DELIMITER //
+
+CREATE TRIGGER update_invoice_after_partservice_change
+AFTER INSERT ON PartService
+FOR EACH ROW
+BEGIN
+    UPDATE Invoice
+    SET partservice_total = (
+        SELECT COALESCE(SUM(total_price), 0)
+        FROM PartService
+        WHERE service_id = NEW.service_id
+    ),
+    total = labor_cost + partservice_total
+    WHERE service_id = NEW.service_id;
+END;
+//
+
+DELIMITER ;
+
+
+--THEN
+
+-- Trigger to update partservice_total and total in Invoice table after updating PartService
+DELIMITER //
+
+CREATE TRIGGER update_invoice_after_partservice_update
+AFTER UPDATE ON PartService
+FOR EACH ROW
+BEGIN
+    UPDATE Invoice
+    SET partservice_total = (
+        SELECT COALESCE(SUM(total_price), 0)
+        FROM PartService
+        WHERE service_id = NEW.service_id
+    ),
+    total = labor_cost + partservice_total
+    WHERE service_id = NEW.service_id;
+END;
+//
+
+DELIMITER ;
