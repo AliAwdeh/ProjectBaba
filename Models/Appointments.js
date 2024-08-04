@@ -15,11 +15,11 @@ class Appointments {
     }
     
     async create() {
-        const { guid, client_id, car_id, appointment_date, service_details } = this;
+        const { client_id, car_id, appointment_date, service_details } = this;
         const [result] = await pool.query(
-            `INSERT INTO Appointments (guid, client_id, car_id, appointment_date, service_details) 
-             VALUES (?, ?, ?, ?, ?)`,
-            [guid, client_id, car_id, appointment_date, service_details]
+            `INSERT INTO Appointments (client_id, car_id, appointment_date, service_details) 
+             VALUES (?, ?, ?, ?)`,
+            [client_id, car_id, appointment_date, service_details]
         );
         this.appointment_id = result.insertId; // Set the appointment_id after creation
         return this.appointment_id;
@@ -41,11 +41,11 @@ class Appointments {
     }
 
     async update() {
-        const { appointment_id, guid, client_id, car_id, appointment_date, service_details } = this;
+        const { appointment_id, client_id, car_id, appointment_date, service_details } = this;
         await pool.query(
-            `UPDATE Appointments SET guid = ?, client_id = ?, car_id = ?, appointment_date = ?, service_details = ? 
+            `UPDATE Appointments SET client_id = ?, car_id = ?, appointment_date = ?, service_details = ? 
              WHERE appointment_id = ?`,
-            [guid, client_id, car_id, appointment_date, service_details, appointment_id]
+            [client_id, car_id, appointment_date, service_details, appointment_id]
         );
     }
 

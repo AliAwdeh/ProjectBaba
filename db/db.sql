@@ -17,16 +17,18 @@ CREATE TABLE Clients (
     FOREIGN KEY (reference) REFERENCES Clients(client_id)
 );
 
--- Create the Cars table
+-- Step 2: Create the new `Cars` table
 CREATE TABLE Cars (
     car_id INT AUTO_INCREMENT PRIMARY KEY,
     plate_number VARCHAR(20) NOT NULL,
-    guid CHAR(36) NOT NULL UNIQUE,
+    guid CHAR(36) NOT NULL UNIQUE DEFAULT (UUID()),
     make VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     year INT NOT NULL,
     Colour VARCHAR(50) NOT NULL,
-    vin VARCHAR(20) DEFAULT NULL
+    vin VARCHAR(20) DEFAULT NULL,
+    owner_id INT NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES Clients(client_id)
 );
 
 -- Create the Appointments table

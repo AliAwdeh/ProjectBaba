@@ -18,11 +18,11 @@ class Clients {
     }
 
     async create() {
-        const { guid, name, surname, phone, email, address, reference } = this;
+        const {name, surname, phone, email, address, reference } = this;
         const [result] = await pool.query(
-            `INSERT INTO Clients (guid, name, surname, phone, email, address, reference) 
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [guid, name, surname, phone, email, address, reference]
+            `INSERT INTO Clients (name, surname, phone, email, address, reference) 
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [name, surname, phone, email, address, reference]
         );
         this.client_id = result.insertId;
         return this.client_id;
@@ -36,19 +36,12 @@ class Clients {
         return rows[0];
     }
 
-    static async readall() {
-        const [rows] = await pool.query(
-            `SELECT * FROM Clients`
-        );
-        return rows;
-    }
-
     async update() {
-        const { client_id, guid, name, surname, phone, email, address, reference } = this;
+        const { client_id,name, surname, phone, email, address, reference } = this;
         await pool.query(
-            `UPDATE Clients SET guid = ?, name = ?, surname = ?, phone = ?, email = ?, address = ?, reference = ? 
+            `UPDATE Clients SET name = ?, surname = ?, phone = ?, email = ?, address = ?, reference = ? 
              WHERE client_id = ?`,
-            [guid, name, surname, phone, email, address, reference, client_id]
+            [name, surname, phone, email, address, reference, client_id]
         );
     }
 

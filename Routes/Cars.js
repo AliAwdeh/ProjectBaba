@@ -3,10 +3,10 @@ const router = express.Router();
 const { Cars } = require('../Models/Cars');
 
 // Create a new car
-router.post('/cars', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const car = new Car(req.body);
-        const carId = await car.create();
+        const cars = new Cars(req.body);
+        const carId = await cars.create();
         res.status(201).json({ carId });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -14,20 +14,20 @@ router.post('/cars', async (req, res) => {
 });
 
 // Get a car by ID
-router.get('/cars/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const car = await Car.read(parseInt(req.params.id));
-        res.status(200).json(car);
+        const cars = await Cars.read(parseInt(req.params.id));
+        res.status(200).json(cars);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 // Update a car
-router.put('/cars/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const car = new Car({ ...req.body, car_id: parseInt(req.params.id) });
-        await car.update();
+        const cars = new Cars({ ...req.body, car_id: parseInt(req.params.id) });
+        await cars.update();
         res.status(200).json({ message: 'Car updated' });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -35,9 +35,9 @@ router.put('/cars/:id', async (req, res) => {
 });
 
 // Delete a car
-router.delete('/cars/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        await Car.delete(parseInt(req.params.id));
+        await Cars.delete(parseInt(req.params.id));
         res.status(200).json({ message: 'Car deleted' });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -45,9 +45,9 @@ router.delete('/cars/:id', async (req, res) => {
 });
 
 // List all cars
-router.get('/cars', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const cars = await Car.list();
+        const cars = await Cars.list();
         res.status(200).json(cars);
     } catch (error) {
         res.status(500).json({ error: error.message });
