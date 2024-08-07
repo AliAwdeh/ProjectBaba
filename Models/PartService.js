@@ -15,11 +15,11 @@ class PartService {
         PartService.pool = pool;
     }
     async create() {
-        const { guid, part_id, service_id, quantity } = this;
+        const {part_id, service_id, quantity } = this;
         const [result] = await pool.query(
-            `INSERT INTO PartService (guid, part_id, service_id, quantity) 
-             VALUES (?, ?, ?, ?)`,
-            [guid, part_id, service_id, quantity]
+            `INSERT INTO PartService (part_id, service_id, quantity) 
+             VALUES (?, ?, ?)`,
+            [part_id, service_id, quantity]
         );
 
         // Calculate total_price after insertion
@@ -47,7 +47,7 @@ class PartService {
     }
 
     async update() {
-        const { partservice_id, guid, part_id, service_id, quantity } = this;
+        const { partservice_id, part_id, service_id, quantity } = this;
 
         // Recalculate total_price during update
         const [[part]] = await pool.query(
@@ -57,9 +57,9 @@ class PartService {
         const total_price = quantity * part.price;
 
         await pool.query(
-            `UPDATE PartService SET guid = ?, part_id = ?, service_id = ?, quantity = ?, total_price = ? 
+            `UPDATE PartService SET part_id = ?, service_id = ?, quantity = ?, total_price = ? 
              WHERE partservice_id = ?`,
-            [guid, part_id, service_id, quantity, total_price, partservice_id]
+            [part_id, service_id, quantity, total_price, partservice_id]
         );
     }
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const { OwnershipHistory } = require('../Models/OwnershipHistory');
 
 // Create a new ownership history record
-router.post('/ownershipHistory', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const ownershipHistory = new OwnershipHistory(req.body);
         const ownershipId = await ownershipHistory.create();
@@ -14,7 +14,7 @@ router.post('/ownershipHistory', async (req, res) => {
 });
 
 // Get an ownership history record by ID
-router.get('/ownershipHistory/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const ownershipHistory = await OwnershipHistory.read(parseInt(req.params.id));
         res.status(200).json(ownershipHistory);
@@ -24,7 +24,7 @@ router.get('/ownershipHistory/:id', async (req, res) => {
 });
 
 // Update an ownership history record
-router.put('/ownershipHistory/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const ownershipHistory = new OwnershipHistory({ ...req.body, ownership_id: parseInt(req.params.id) });
         await ownershipHistory.update();
@@ -35,7 +35,7 @@ router.put('/ownershipHistory/:id', async (req, res) => {
 });
 
 // Delete an ownership history record
-router.delete('/ownershipHistory/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await OwnershipHistory.delete(parseInt(req.params.id));
         res.status(200).json({ message: 'OwnershipHistory deleted' });
@@ -45,7 +45,7 @@ router.delete('/ownershipHistory/:id', async (req, res) => {
 });
 
 // List all ownership history records
-router.get('/ownershipHistory', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const ownershipHistories = await OwnershipHistory.list();
         res.status(200).json(ownershipHistories);

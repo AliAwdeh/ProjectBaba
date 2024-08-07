@@ -23,6 +23,26 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Get a car by ID
+router.get('/byplate/:platenb', async (req, res) => {
+    try {
+        const cars = await Cars.readbyplate(parseInt(req.params.platenb));
+        res.status(200).json(cars);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get a car by ID
+router.get('/byowner/:ownerid', async (req, res) => {
+    try {
+        const cars = await Cars.readbyownerid(parseInt(req.params.ownerid));
+        res.status(200).json(cars);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Update a car
 router.put('/:id', async (req, res) => {
     try {

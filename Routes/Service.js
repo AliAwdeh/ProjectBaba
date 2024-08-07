@@ -3,7 +3,7 @@ const router = express.Router();
 const { Service } = require('../Models/Service');
 
 // Create a new service
-router.post('/service', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const service = new Service(req.body);
         const serviceId = await service.create();
@@ -14,7 +14,7 @@ router.post('/service', async (req, res) => {
 });
 
 // Get a service by ID
-router.get('/service/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const service = await Service.read(parseInt(req.params.id));
         res.status(200).json(service);
@@ -24,7 +24,7 @@ router.get('/service/:id', async (req, res) => {
 });
 
 // Update a service
-router.put('/service/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const service = new Service({ ...req.body, service_id: parseInt(req.params.id) });
         await service.update();
@@ -35,7 +35,7 @@ router.put('/service/:id', async (req, res) => {
 });
 
 // Delete a service
-router.delete('/service/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await Service.delete(parseInt(req.params.id));
         res.status(200).json({ message: 'Service deleted' });
@@ -45,7 +45,7 @@ router.delete('/service/:id', async (req, res) => {
 });
 
 // List all services
-router.get('/service', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const services = await Service.list();
         res.status(200).json(services);

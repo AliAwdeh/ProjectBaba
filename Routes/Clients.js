@@ -23,6 +23,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/byphone/:phone', async (req, res) => {
+    try {
+        const client = await Clients.readbyphonenumber(parseInt(req.params.phone));
+        res.status(200).json(client);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Update a client
 router.put('/:id', async (req, res) => {
     try {

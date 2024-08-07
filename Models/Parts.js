@@ -14,10 +14,10 @@ class Parts {
     }
 
     async create() {
-        const { guid, name, price } = this;
+        const {name, price } = this;
         const [result] = await pool.query(
-            `INSERT INTO Parts (guid, name, price) VALUES (?, ?, ?)`,
-            [guid, name, price]
+            `INSERT INTO Parts (name, price) VALUES (?, ?)`,
+            [name, price]
         );
         this.part_id = result.insertId; // Set the part_id after creation
         return this.part_id;
@@ -39,10 +39,10 @@ class Parts {
     }
 
     async update() {
-        const { part_id, guid, name, price } = this;
+        const { part_id, name, price } = this;
         await pool.query(
-            `UPDATE Parts SET guid = ?, name = ?, price = ? WHERE part_id = ?`,
-            [guid, name, price, part_id]
+            `UPDATE Parts SET name = ?, price = ? WHERE part_id = ?`,
+            [name, price, part_id]
         );
     }
 

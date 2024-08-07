@@ -15,10 +15,10 @@ const invoiceRoutes = require('./Invoice');
 router.use('/clients', clientRoutes);
 router.use('/cars', carRoutes);
 router.use('/appointments', appointmentRoutes);
-router.use('/ownershipHistory', ownershipHistoryRoutes);
+router.use('/OwnershipHistory', ownershipHistoryRoutes);
 router.use('/parts', partRoutes);
 router.use('/services', serviceRoutes);
 router.use('/partServices', partServiceRoutes);
-router.use('/invoices', invoiceRoutes);
+router.use('/invoice', invoiceRoutes);
 
 module.exports = router;

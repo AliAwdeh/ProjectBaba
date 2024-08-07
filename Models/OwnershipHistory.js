@@ -17,11 +17,11 @@ class OwnershipHistory {
     }
 
     async create() {
-        const { guid, car_id, old_owner_id, new_owner_id, transfer_date } = this;
+        const {car_id, old_owner_id, new_owner_id, transfer_date } = this;
         const [result] = await pool.query(
-            `INSERT INTO OwnershipHistory (guid, car_id, old_owner_id, new_owner_id, transfer_date) 
-             VALUES (?, ?, ?, ?, ?)`,
-            [guid, car_id, old_owner_id, new_owner_id, transfer_date]
+            `INSERT INTO OwnershipHistory (car_id, old_owner_id, new_owner_id, transfer_date) 
+             VALUES (?, ?, ?, ?)`,
+            [car_id, old_owner_id, new_owner_id, transfer_date]
         );
         this.ownership_id = result.insertId; // Set the ownership_id after creation
         return this.ownership_id;
@@ -43,11 +43,11 @@ class OwnershipHistory {
     }
 
     async update() {
-        const { ownership_id, guid, car_id, old_owner_id, new_owner_id, transfer_date } = this;
+        const { ownership_id, car_id, old_owner_id, new_owner_id, transfer_date } = this;
         await pool.query(
-            `UPDATE OwnershipHistory SET guid = ?, car_id = ?, old_owner_id = ?, new_owner_id = ?, transfer_date = ? 
+            `UPDATE OwnershipHistory SET  car_id = ?, old_owner_id = ?, new_owner_id = ?, transfer_date = ? 
              WHERE ownership_id = ?`,
-            [guid, car_id, old_owner_id, new_owner_id, transfer_date, ownership_id]
+            [car_id, old_owner_id, new_owner_id, transfer_date, ownership_id]
         );
     }
 

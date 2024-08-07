@@ -3,7 +3,7 @@ const router = express.Router();
 const { PartService } = require('../Models/PartService');
 
 // Create a new part-service record
-router.post('/partService', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const partService = new PartService(req.body);
         const partServiceId = await partService.create();
@@ -14,7 +14,7 @@ router.post('/partService', async (req, res) => {
 });
 
 // Get a part-service record by ID
-router.get('/partService/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const partService = await PartService.read(parseInt(req.params.id));
         res.status(200).json(partService);
@@ -24,7 +24,7 @@ router.get('/partService/:id', async (req, res) => {
 });
 
 // Update a part-service record
-router.put('/partService/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const partService = new PartService({ ...req.body, partservice_id: parseInt(req.params.id) });
         await partService.update();
@@ -35,7 +35,7 @@ router.put('/partService/:id', async (req, res) => {
 });
 
 // Delete a part-service record
-router.delete('/partService/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await PartService.delete(parseInt(req.params.id));
         res.status(200).json({ message: 'PartService deleted' });
@@ -45,7 +45,7 @@ router.delete('/partService/:id', async (req, res) => {
 });
 
 // List all part-service records
-router.get('/partService', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const partServices = await PartService.list();
         res.status(200).json(partServices);

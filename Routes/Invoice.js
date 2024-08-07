@@ -3,7 +3,7 @@ const router = express.Router();
 const { Invoice } = require('../Models/Invoice');
 
 // Create a new invoice
-router.post('/invoice', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const invoice = new Invoice(req.body);
         const invoiceId = await invoice.create();
@@ -14,7 +14,7 @@ router.post('/invoice', async (req, res) => {
 });
 
 // Get an invoice by ID
-router.get('/invoice/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const invoice = await Invoice.read(parseInt(req.params.id));
         res.status(200).json(invoice);
@@ -24,7 +24,7 @@ router.get('/invoice/:id', async (req, res) => {
 });
 
 // Update an invoice
-router.put('/invoice/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const invoice = new Invoice({ ...req.body, invoice_id: parseInt(req.params.id) });
         await invoice.update();
@@ -35,7 +35,7 @@ router.put('/invoice/:id', async (req, res) => {
 });
 
 // Delete an invoice
-router.delete('/invoice/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await Invoice.delete(parseInt(req.params.id));
         res.status(200).json({ message: 'Invoice deleted' });
@@ -45,7 +45,7 @@ router.delete('/invoice/:id', async (req, res) => {
 });
 
 // List all invoices
-router.get('/invoice', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const invoices = await Invoice.list();
         res.status(200).json(invoices);

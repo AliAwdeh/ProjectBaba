@@ -38,7 +38,21 @@ class Cars {
         );
         return rows[0];
     }
+    static async readbyplate(plate_number) {
+        const [rows] = await Cars.pool.query(
+            `SELECT * FROM Cars WHERE plate_number = ?`,
+            [plate_number]
+        );
+        return rows[0];
+    }
 
+    static async readbyownerid(ownerid) {
+        const [rows] = await Cars.pool.query(
+            `SELECT * FROM Cars WHERE owner_id = ?`,
+            [ownerid]
+        );
+        return rows;
+    }
     static async readall() {
         const [rows] = await Cars.pool.query(
             `SELECT * FROM Cars`

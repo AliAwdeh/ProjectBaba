@@ -20,11 +20,11 @@ class Service {
     }
 
     async create() {
-        const { guid, car_id, service_date, odometre, description, invoice_id, paid_status, price } = this;
+        const {car_id, service_date, odometre, description, invoice_id, paid_status, price } = this;
         const [result] = await pool.query(
-            `INSERT INTO Service (guid, car_id, service_date, odometre, description, invoice_id, paid_status, price) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [guid, car_id, service_date, odometre, description, invoice_id, paid_status, price]
+            `INSERT INTO Service (car_id, service_date, odometre, description, invoice_id, paid_status, price) 
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [car_id, service_date, odometre, description, invoice_id, paid_status, price]
         );
         this.service_id = result.insertId; // Set the service_id after creation
         return this.service_id;
@@ -39,11 +39,11 @@ class Service {
     }
 
     async update() {
-        const { service_id, guid, car_id, service_date, odometre, description, invoice_id, paid_status, price } = this;
+        const { service_id, car_id, service_date, odometre, description, invoice_id, paid_status, price } = this;
         await pool.query(
-            `UPDATE Service SET guid = ?, car_id = ?, service_date = ?, odometre = ?, description = ?, invoice_id = ?, paid_status = ?, price = ? 
+            `UPDATE Service SET car_id = ?, service_date = ?, odometre = ?, description = ?, invoice_id = ?, paid_status = ?, price = ? 
              WHERE service_id = ?`,
-            [guid, car_id, service_date, odometre, description, invoice_id, paid_status, price, service_id]
+            [car_id, service_date, odometre, description, invoice_id, paid_status, price, service_id]
         );
     }
 

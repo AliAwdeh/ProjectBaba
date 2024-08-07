@@ -36,6 +36,14 @@ class Clients {
         return rows[0];
     }
 
+    static async readbyphonenumber(phone) {
+        const [rows] = await pool.query(
+            `SELECT * FROM Clients WHERE phone = ?`,
+            [phone]
+        );
+        return rows;
+    }
+
     async update() {
         const { client_id,name, surname, phone, email, address, reference } = this;
         await pool.query(

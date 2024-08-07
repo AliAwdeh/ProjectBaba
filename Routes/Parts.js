@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Part } = require('../Models/Parts');
+const { Parts } = require('../Models/Parts');
 
 // Create a new part
-router.post('/parts', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const part = new Part(req.body);
+        const part = new Parts(req.body);
         const partId = await part.create();
         res.status(201).json({ partId });
     } catch (error) {
@@ -14,9 +14,9 @@ router.post('/parts', async (req, res) => {
 });
 
 // Get a part by ID
-router.get('/parts/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const part = await Part.read(parseInt(req.params.id));
+        const part = await Parts.read(parseInt(req.params.id));
         res.status(200).json(part);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -24,9 +24,9 @@ router.get('/parts/:id', async (req, res) => {
 });
 
 // Update a part
-router.put('/parts/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const part = new Part({ ...req.body, part_id: parseInt(req.params.id) });
+        const part = new Parts({ ...req.body, part_id: parseInt(req.params.id) });
         await part.update();
         res.status(200).json({ message: 'Part updated' });
     } catch (error) {
@@ -35,9 +35,9 @@ router.put('/parts/:id', async (req, res) => {
 });
 
 // Delete a part
-router.delete('/parts/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        await Part.delete(parseInt(req.params.id));
+        await Parts.delete(parseInt(req.params.id));
         res.status(200).json({ message: 'Part deleted' });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -45,9 +45,9 @@ router.delete('/parts/:id', async (req, res) => {
 });
 
 // List all parts
-router.get('/parts', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const parts = await Part.list();
+        const parts = await Parts.list();
         res.status(200).json(parts);
     } catch (error) {
         res.status(500).json({ error: error.message });
