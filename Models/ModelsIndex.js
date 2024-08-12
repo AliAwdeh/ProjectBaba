@@ -1,7 +1,7 @@
 // models.js
 const { Clients } = require('./Clients');
 const { Cars } = require('./Cars');
-const { Appointments } = require('./AppointmentS');
+const { Appointments } = require('./Appointments');
 const { OwnershipHistory } = require('./OwnershipHistory');
 const { Parts } = require('./Parts');
 const { Service } = require('./Service');

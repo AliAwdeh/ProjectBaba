@@ -6,36 +6,27 @@ const { Clients } = require('../Models/Clients');
 router.post('/', async (req, res) => {
     try {
         const client = new Clients(req.body);
-        const clientId = await client.create();
-        res.status(201).json({ clientId });
+        const clientPhone = await client.create();
+        res.status(201).json({ phone: clientPhone });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Get a client by ID
-router.get('/:id', async (req, res) => {
+// Get a client by phone number
+router.get('/:phone', async (req, res) => {
     try {
-        const client = await Clients.read(parseInt(req.params.id));
+        const client = await Clients.read(req.params.phone);
         res.status(200).json(client);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-router.get('/byphone/:phone', async (req, res) => {
+// Update a client by phone number
+router.put('/:phone', async (req, res) => {
     try {
-        const client = await Clients.readbyphonenumber(parseInt(req.params.phone));
-        res.status(200).json(client);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Update a client
-router.put('/:id', async (req, res) => {
-    try {
-        const client = new Clients({ ...req.body, client_id: parseInt(req.params.id) });
+        const client = new Clients({ ...req.body, phone: req.params.phone });
         await client.update();
         res.status(200).json({ message: 'Client updated' });
     } catch (error) {
@@ -43,10 +34,10 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// Delete a client
-router.delete('/:id', async (req, res) => {
+// Delete a client by phone number
+router.delete('/:phone', async (req, res) => {
     try {
-        await Clients.delete(parseInt(req.params.id));
+        await Clients.delete(req.params.phone);
         res.status(200).json({ message: 'Client deleted' });
     } catch (error) {
         res.status(500).json({ error: error.message });

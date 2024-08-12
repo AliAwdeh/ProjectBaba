@@ -4,16 +4,16 @@ let pool; // Declare pool here
 
 class Cars {
     constructor(data) {
-        this.car_id = data.car_id;
         this.plate_number = data.plate_number;
-        this.guid = data.guid;
         this.make = data.make;
         this.model = data.model;
         this.year = data.year;
-        this.Colour = data.Colour;
+        this.colour = data.colour; // Fixed the casing for consistency
         this.vin = data.vin;
-        this.owner_id = data.owner_id;
+        this.owner_phone = data.owner_phone;
+        this.odometer = data.odometer; // Added odometer attribute
     }
+
     static pool;
 
     static setPool(dbPool) {
@@ -21,24 +21,16 @@ class Cars {
     }
 
     async create() {
-        const { plate_number, make, model, year, Colour, vin, owner_id } = this;
+        const { plate_number, make, model, year, colour, vin, owner_phone, odometer } = this;
         const [result] = await Cars.pool.query(
-            `INSERT INTO Cars (plate_number, make, model, year, Colour, vin, owner_id) 
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [plate_number, make, model, year, Colour, vin, owner_id]
+            `INSERT INTO Cars (plate_number, make, model, year, colour, vin, owner_phone, odometer) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [plate_number, make, model, year, colour, vin, owner_phone, odometer]
         );
-        this.car_id = result.insertId; // Set the car_id after creation
-        return this.car_id;
+        return plate_number; // Returning plate_number as it is the primary key
     }
 
-    static async read(carId) {
-        const [rows] = await Cars.pool.query(
-            `SELECT * FROM Cars WHERE car_id = ?`,
-            [carId]
-        );
-        return rows[0];
-    }
-    static async readbyplate(plate_number) {
+    static async read(plate_number) {
         const [rows] = await Cars.pool.query(
             `SELECT * FROM Cars WHERE plate_number = ?`,
             [plate_number]
@@ -46,33 +38,27 @@ class Cars {
         return rows[0];
     }
 
-    static async readbyownerid(ownerid) {
+    static async readByOwnerPhone(owner_phone) {
         const [rows] = await Cars.pool.query(
-            `SELECT * FROM Cars WHERE owner_id = ?`,
-            [ownerid]
-        );
-        return rows;
-    }
-    static async readall() {
-        const [rows] = await Cars.pool.query(
-            `SELECT * FROM Cars`
+            `SELECT * FROM Cars WHERE owner_phone = ?`,
+            [owner_phone]
         );
         return rows;
     }
 
     async update() {
-        const { car_id, plate_number, make, model, year, Colour, vin, owner_id } = this;
+        const { plate_number, make, model, year, colour, vin, owner_phone, odometer } = this;
         await Cars.pool.query(
-            `UPDATE Cars SET plate_number = ?, make = ?, model = ?, year = ?, Colour = ?, vin = ?, owner_id = ?
-             WHERE car_id = ?`,
-            [plate_number, make, model, year, Colour, vin, owner_id, car_id]
+            `UPDATE Cars SET make = ?, model = ?, year = ?, colour = ?, vin = ?, owner_phone = ?, odometer = ?
+             WHERE plate_number = ?`,
+            [make, model, year, colour, vin, owner_phone, odometer, plate_number]
         );
     }
 
-    static async delete(carId) {
+    static async delete(plate_number) {
         await Cars.pool.query(
-            `DELETE FROM Cars WHERE car_id = ?`,
-            [carId]
+            `DELETE FROM Cars WHERE plate_number = ?`,
+            [plate_number]
         );
     }
 

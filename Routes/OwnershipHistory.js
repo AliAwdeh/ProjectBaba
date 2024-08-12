@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
     try {
         const ownershipHistory = new OwnershipHistory(req.body);
         const ownershipId = await ownershipHistory.create();
-        res.status(201).json({ ownershipId });
+        res.status(201).json({ ownership_id: ownershipId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -28,7 +28,7 @@ router.put('/:id', async (req, res) => {
     try {
         const ownershipHistory = new OwnershipHistory({ ...req.body, ownership_id: parseInt(req.params.id) });
         await ownershipHistory.update();
-        res.status(200).json({ message: 'OwnershipHistory updated' });
+        res.status(200).json({ message: 'Ownership history updated' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -38,7 +38,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         await OwnershipHistory.delete(parseInt(req.params.id));
-        res.status(200).json({ message: 'OwnershipHistory deleted' });
+        res.status(200).json({ message: 'Ownership history deleted' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

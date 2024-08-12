@@ -18,7 +18,7 @@ router.use('/appointments', appointmentRoutes);
 router.use('/OwnershipHistory', ownershipHistoryRoutes);
 router.use('/parts', partRoutes);
 router.use('/services', serviceRoutes);
-router.use('/partServices', partServiceRoutes);
-router.use('/invoice', invoiceRoutes);
+router.use('/partservice', partServiceRoutes);
+router.use('/invoices', invoiceRoutes);
 
 module.exports = router;

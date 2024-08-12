@@ -5,59 +5,49 @@ const { Cars } = require('../Models/Cars');
 // Create a new car
 router.post('/', async (req, res) => {
     try {
-        const cars = new Cars(req.body);
-        const carId = await cars.create();
-        res.status(201).json({ carId });
+        const car = new Cars(req.body);
+        const plateNumber = await car.create();
+        res.status(201).json({ plate_number: plateNumber });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Get a car by ID
-router.get('/:id', async (req, res) => {
+// Get a car by plate number
+router.get('/:plate_number', async (req, res) => {
     try {
-        const cars = await Cars.read(parseInt(req.params.id));
+        const car = await Cars.read(req.params.plate_number);
+        res.status(200).json(car);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get cars by owner phone
+router.get('/byowner/:owner_phone', async (req, res) => {
+    try {
+        const cars = await Cars.readByOwnerPhone(req.params.owner_phone);
         res.status(200).json(cars);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Get a car by ID
-router.get('/byplate/:platenb', async (req, res) => {
+// Update a car by plate number
+router.put('/:plate_number', async (req, res) => {
     try {
-        const cars = await Cars.readbyplate(parseInt(req.params.platenb));
-        res.status(200).json(cars);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Get a car by ID
-router.get('/byowner/:ownerid', async (req, res) => {
-    try {
-        const cars = await Cars.readbyownerid(parseInt(req.params.ownerid));
-        res.status(200).json(cars);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Update a car
-router.put('/:id', async (req, res) => {
-    try {
-        const cars = new Cars({ ...req.body, car_id: parseInt(req.params.id) });
-        await cars.update();
+        const car = new Cars({ ...req.body, plate_number: req.params.plate_number });
+        await car.update();
         res.status(200).json({ message: 'Car updated' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Delete a car
-router.delete('/:id', async (req, res) => {
+// Delete a car by plate number
+router.delete('/:plate_number', async (req, res) => {
     try {
-        await Cars.delete(parseInt(req.params.id));
+        await Cars.delete(req.params.plate_number);
         res.status(200).json({ message: 'Car deleted' });
     } catch (error) {
         res.status(500).json({ error: error.message });

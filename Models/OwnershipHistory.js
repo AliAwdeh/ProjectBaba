@@ -3,10 +3,9 @@ const pool = require('../DB/dbconnnect');
 class OwnershipHistory {
     constructor(data) {
         this.ownership_id = data.ownership_id || null;
-        this.guid = data.guid;
-        this.car_id = data.car_id;
-        this.old_owner_id = data.old_owner_id || null;
-        this.new_owner_id = data.new_owner_id || null;
+        this.plate_number = data.plate_number;
+        this.old_owner_phone = data.old_owner_phone || null;
+        this.new_owner_phone = data.new_owner_phone || null;
         this.transfer_date = new Date(data.transfer_date);
     }
 
@@ -17,50 +16,51 @@ class OwnershipHistory {
     }
 
     async create() {
-        const {car_id, old_owner_id, new_owner_id, transfer_date } = this;
-        const [result] = await pool.query(
-            `INSERT INTO OwnershipHistory (car_id, old_owner_id, new_owner_id, transfer_date) 
+        const { plate_number, old_owner_phone, new_owner_phone, transfer_date } = this;
+        const [result] = await OwnershipHistory.pool.query(
+            `INSERT INTO OwnershipHistory (plate_number, old_owner_phone, new_owner_phone, transfer_date) 
              VALUES (?, ?, ?, ?)`,
-            [car_id, old_owner_id, new_owner_id, transfer_date]
+            [plate_number, old_owner_phone, new_owner_phone, transfer_date]
         );
         this.ownership_id = result.insertId; // Set the ownership_id after creation
         return this.ownership_id;
     }
 
     static async read(ownershipId) {
-        const [rows] = await pool.query(
+        const [rows] = await OwnershipHistory.pool.query(
             `SELECT * FROM OwnershipHistory WHERE ownership_id = ?`,
             [ownershipId]
         );
         return rows[0];
     }
 
-    static async readall() {
-        const [rows] = await pool.query(
+    static async readAll() {
+        const [rows] = await OwnershipHistory.pool.query(
             `SELECT * FROM OwnershipHistory`
         );
         return rows;
     }
 
     async update() {
-        const { ownership_id, car_id, old_owner_id, new_owner_id, transfer_date } = this;
-        await pool.query(
-            `UPDATE OwnershipHistory SET  car_id = ?, old_owner_id = ?, new_owner_id = ?, transfer_date = ? 
+        const { ownership_id, plate_number, old_owner_phone, new_owner_phone, transfer_date } = this;
+        await OwnershipHistory.pool.query(
+            `UPDATE OwnershipHistory SET plate_number = ?, old_owner_phone = ?, new_owner_phone = ?, transfer_date = ? 
              WHERE ownership_id = ?`,
-            [car_id, old_owner_id, new_owner_id, transfer_date, ownership_id]
+            [plate_number, old_owner_phone, new_owner_phone, transfer_date, ownership_id]
         );
     }
 
     static async delete(ownershipId) {
-        await pool.query(
+        await OwnershipHistory.pool.query(
             `DELETE FROM OwnershipHistory WHERE ownership_id = ?`,
             [ownershipId]
         );
     }
 
     static async list() {
-        const [rows] = await pool.query(`SELECT * FROM OwnershipHistory`);
+        const [rows] = await OwnershipHistory.pool.query(`SELECT * FROM OwnershipHistory`);
         return rows;
     }
 }
+
 module.exports = { OwnershipHistory };

@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
     try {
         const part = new Parts(req.body);
         const partId = await part.create();
-        res.status(201).json({ partId });
+        res.status(201).json({ part_id: partId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -18,6 +18,22 @@ router.get('/:id', async (req, res) => {
     try {
         const part = await Parts.read(parseInt(req.params.id));
         res.status(200).json(part);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get a part by name
+router.get('/byname/:name', async (req, res) => {
+    try {
+        const part = await Parts.readByName(req.params.name);
+        if (part){
+        res.status(200).json(part);
+        }
+        else{
+            res.status(200).json();
+        }
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

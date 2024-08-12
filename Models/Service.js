@@ -3,14 +3,12 @@ const pool = require('../DB/dbconnnect');
 class Service {
     constructor(data) {
         this.service_id = data.service_id || null;
-        this.guid = data.guid;
-        this.car_id = data.car_id;
+        this.plate_number = data.plate_number;
         this.service_date = new Date(data.service_date);
-        this.odometre = data.odometre;
+        this.odometer = data.odometer; // Updated the spelling to match your schema
         this.description = data.description || null;
         this.invoice_id = data.invoice_id || null;
-        this.paid_status = data.paid_status || false;
-        this.price = data.price;
+        this.service_done = data.service_done || false; // Updated field name to service_done
     }
 
     static pool;
@@ -20,18 +18,18 @@ class Service {
     }
 
     async create() {
-        const {car_id, service_date, odometre, description, invoice_id, paid_status, price } = this;
-        const [result] = await pool.query(
-            `INSERT INTO Service (car_id, service_date, odometre, description, invoice_id, paid_status, price) 
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [car_id, service_date, odometre, description, invoice_id, paid_status, price]
+        const { plate_number, service_date, odometer, description, invoice_id, service_done } = this;
+        const [result] = await Service.pool.query(
+            `INSERT INTO Service (plate_number, service_date, odometer, description, invoice_id, service_done) 
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [plate_number, service_date, odometer, description, invoice_id, service_done]
         );
         this.service_id = result.insertId; // Set the service_id after creation
         return this.service_id;
     }
 
     static async read(serviceId) {
-        const [rows] = await pool.query(
+        const [rows] = await Service.pool.query(
             `SELECT * FROM Service WHERE service_id = ?`,
             [serviceId]
         );
@@ -39,24 +37,25 @@ class Service {
     }
 
     async update() {
-        const { service_id, car_id, service_date, odometre, description, invoice_id, paid_status, price } = this;
-        await pool.query(
-            `UPDATE Service SET car_id = ?, service_date = ?, odometre = ?, description = ?, invoice_id = ?, paid_status = ?, price = ? 
+        const { service_id, plate_number, service_date, odometer, description, invoice_id, service_done } = this;
+        await Service.pool.query(
+            `UPDATE Service SET plate_number = ?, service_date = ?, odometer = ?, description = ?, invoice_id = ?, service_done = ? 
              WHERE service_id = ?`,
-            [car_id, service_date, odometre, description, invoice_id, paid_status, price, service_id]
+            [plate_number, service_date, odometer, description, invoice_id, service_done, service_id]
         );
     }
 
     static async delete(serviceId) {
-        await pool.query(
+        await Service.pool.query(
             `DELETE FROM Service WHERE service_id = ?`,
             [serviceId]
         );
     }
 
     static async list() {
-        const [rows] = await pool.query(`SELECT * FROM Service`);
+        const [rows] = await Service.pool.query(`SELECT * FROM Service`);
         return rows;
     }
 }
+
 module.exports = { Service };

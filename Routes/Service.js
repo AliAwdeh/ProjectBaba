@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
     try {
         const service = new Service(req.body);
         const serviceId = await service.create();
-        res.status(201).json({ serviceId });
+        res.status(201).json({ service_id: serviceId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
