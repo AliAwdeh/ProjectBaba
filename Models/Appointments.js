@@ -72,6 +72,37 @@ class Appointments {
         return rows;
     }
 
+    static formatDateForSQL(date) {
+        return date.toISOString().slice(0, 19).replace('T', ' ');
+    }
+
+    static async getAppointmentsForToday() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const [rows] = await Appointments.pool.query(
+            `SELECT * FROM Appointments WHERE appointment_date >= ? AND appointment_date < ?`,
+            [Appointments.formatDateForSQL(today), Appointments.formatDateForSQL(tomorrow)]
+        );
+        return rows;
+    }
+
+    static async getAppointmentsForTomorrow() {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        const dayAfterTomorrow = new Date(tomorrow);
+        dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1);
+
+        const [rows] = await Appointments.pool.query(
+            `SELECT * FROM Appointments WHERE appointment_date >= ? AND appointment_date < ?`,
+            [Appointments.formatDateForSQL(tomorrow), Appointments.formatDateForSQL(dayAfterTomorrow)]
+        );
+        return rows;
+    }
+
     static async updateCompletedFlag() {
         await Appointments.pool.query(
             `UPDATE Appointments SET completed = TRUE 

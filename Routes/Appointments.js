@@ -64,6 +64,27 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// Get appointments for today
+router.get('/date/today', async (req, res) => {
+    try {
+        const appointments = await Appointments.getAppointmentsForToday();
+        res.status(200).json(appointments);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get appointments for tomorrow
+router.get('/date/tomorrow', async (req, res) => {
+    try {
+        const appointments = await Appointments.getAppointmentsForTomorrow();
+        res.status(200).json(appointments);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 // List all appointments
 router.get('/', async (req, res) => {
     try {
